@@ -1,15 +1,15 @@
-class UsersController < ApplicationController
+class TouristsController < ApplicationController
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessible_entity
         def create
-            user = User.create!(user_params)
-            session[:user_id] = user.id
+            tourist = Tourist.create!(user_params)
+            session[:tourist_id] = tourist.id
             render json: user, status: 201
         end
     
         def show
-            user = User.find_by(id: session[:user_id])
-            if user
-                render json: user
+            tourist = Tourist.find_by(id: session[:tourist_id])
+            if tourist
+                render json: tourist
             else
                 render json: {error: "unauthorized"}, status: 401
             end
@@ -17,8 +17,8 @@ class UsersController < ApplicationController
     
         private
     
-        def user_params
-            params.permit(:username, :password, :password_confirmation, :image_url, :bio)
+        def tourist_params
+            params.permit(:username, :password, :password_confirmation, :user_type)
         end
     
         def render_unprocessible_entity(invalid)

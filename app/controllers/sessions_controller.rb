@@ -1,18 +1,18 @@
 class SessionsController < ApplicationController
 
     def create
-        user = User.find_by(username: params[:username])
-        if user&.authenticate(params[:password])
-            session[:user_id] = user.id
-            render json: user
+        tourist = Tourist.find_by(username: params[:username])
+        if tourist&.authenticate(params[:password])
+            session[:tourist_id] = tourist.id
+            render json: tourist
         else
             render json: {errors: ["Invalid Username or Password"]}, status: 401
         end
     end
 
     def destroy
-        if session[:user_id]
-            session.delete :user_id
+        if session[:tourist_id]
+            session.delete :tourist_id
             head 204
         else
             render json: {errors: ["Not Authorized"]}, status: 401
